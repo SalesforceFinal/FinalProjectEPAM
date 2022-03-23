@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
-        <application>Todo_App</application>
+        <application>ToDo_List</application>
         <visible>true</visible>
     </applicationVisibilities>
     <fieldPermissions>
@@ -68,7 +68,7 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <recordType>ToDo__c.Tommorrow</recordType>
+        <recordType>ToDo__c.Tomorrow</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>

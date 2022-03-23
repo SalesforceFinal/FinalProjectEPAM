@@ -49,7 +49,7 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>ToDo__c.Tommorrow</recordType>
+        <recordType>ToDo__c.Tomorrow</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <userLicense>Salesforce</userLicense>
