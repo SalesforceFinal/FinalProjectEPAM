@@ -1,8 +1,4 @@
 global class CreateTodoEmail implements Messaging.InboundEmailHandler {
-    private static final String today = 'Today';
-    private static final String tomorrow = 'Tomorrow';
-    private static final String later = 'Later';
-
     global Messaging.InboundEmailResult handleInboundEmail(Messaging.inboundEmail email, Messaging.InboundEnvelope envelop) {
         Todo__c todo;
         Id recordTypeId;
@@ -10,15 +6,15 @@ global class CreateTodoEmail implements Messaging.InboundEmailHandler {
         String myBody = email.plainTextBody;
         String todoName = email.Subject;
 		String todoDescription = email.plainTextBody;
-        if (myBody.containsIgnoreCase(today)) {
-            recordTypeId = getRocordTypeIdByName(today);
-            todo = new Todo__c(Name = todoName, Description__c = todoDescription, Category__c = today, RecordTypeId = recordTypeId);
-        } else if (myBody.containsIgnoreCase(tomorrow)) {
-            recordTypeId = getRocordTypeIdByName(tomorrow);
-            todo = new Todo__c(Name = todoName, Description__c = todoDescription, Category__c = tomorrow, RecordTypeId = recordTypeId);
+        if (myBody.containsIgnoreCase(Category.Today.name())) {
+            recordTypeId = getRocordTypeIdByName(Category.Today.name());
+            todo = new Todo__c(Name = todoName, Description__c = todoDescription, Category__c = Category.Today.name(), RecordTypeId = recordTypeId);
+        } else if (myBody.containsIgnoreCase(Category.Tomorrow.name())) {
+            recordTypeId = getRocordTypeIdByName(Category.Tomorrow.name());
+            todo = new Todo__c(Name = todoName, Description__c = todoDescription, Category__c = Category.Tomorrow.name(), RecordTypeId = recordTypeId);
         } else {
-            recordTypeId = getRocordTypeIdByName(later);
-            todo = new Todo__c(Name = todoName, Description__c = todoDescription, Category__c = later, RecordTypeId = recordTypeId);
+            recordTypeId = getRocordTypeIdByName(Category.Later.name());
+            todo = new Todo__c(Name = todoName, Description__c = todoDescription, Category__c = Category.Later.name(), RecordTypeId = recordTypeId);
         }
 		insert todo;
 		return result;

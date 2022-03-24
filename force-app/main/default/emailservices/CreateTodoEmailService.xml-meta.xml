@@ -9,7 +9,7 @@
         <developerName>TodoEmail</developerName>
         <isActive>true</isActive>
         <localPart>createtodoemailservice</localPart>
-        <runAsUser>gena.pitsuha.project@gmail.com</runAsUser>
+        <runAsUser>finalprojectepam@test.com</runAsUser>
     </emailServicesAddresses>
     <functionInactiveAction>Discard</functionInactiveAction>
     <functionName>CreateTodoEmailService</functionName>
