@@ -1,9 +1,9 @@
 @IsTest
 public class TestDataFactory {
-    public static List<Todo__c> todoCreator (Integer amount, Id recordTypeId, Boolean needInsert, Category category) {
-        List<Todo__c> testTodos = new List<Todo__c>();
+    public static List<ToDo__c> todoCreator (Integer amount, Id recordTypeId, Boolean needInsert, Category category) {
+        List<ToDo__c> testTodos = new List<ToDo__c>();
         for (Integer i = 0; i < amount; i++) {
-            testTodos.add(new Todo__c(
+            testTodos.add(new ToDo__c(
                 Name = 'Test Todo ' + i,
                 RecordTypeId = recordTypeId,
                 Category__c = category.name()
@@ -17,7 +17,7 @@ public class TestDataFactory {
 
     public static Map<Category, Id> getRocordTypeIdByName() {
         Map<Category, Id> recordTypes = new Map<Category, Id>();
-        Schema.DescribeSObjectResult describeTodoObject = Schema.SObjectType.Todo__c;
+        Schema.DescribeSObjectResult describeTodoObject = Schema.SObjectType.ToDo__c;
         Map<String, Schema.RecordTypeInfo> recordTypeMapByName = describeTodoObject.getRecordTypeInfosByName();
         Schema.RecordTypeInfo todayRecordTypeByName =  recordTypeMapByName.get(Category.Today.name());
         Id todayRecordTypeId = todayRecordTypeByName.getRecordTypeId();

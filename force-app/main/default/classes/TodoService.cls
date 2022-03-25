@@ -1,7 +1,7 @@
 public with sharing class TodoService {
-    public static void assignNewTodoToQueue(List<Todo__c> newTodos) {
+    public static void assignNewTodoToQueue(List<ToDo__c> newTodos) {
         Map<String, Id> queueMap = getQueueMap();
-        for (Todo__c todo : newTodos) {
+        for (ToDo__c todo : newTodos) {
             if (todo.Status__c == 'Ready to Take' || todo.Status__c == null) {
                 todo.Status__c = 'Ready to Take';
                 switch on Category.valueOf(todo.Category__c) {
@@ -19,10 +19,10 @@ public with sharing class TodoService {
         }
     }
 
-    public static void reAssignTodoToQueue(List<Todo__c> todos) {
+    public static void reAssignTodoToQueue(List<ToDo__c> todos) {
         Map<String, Id> queueMap = getQueueMap();
         List<Id> queueIds = queueMap.values();
-        for (Todo__c todo : todos) {
+        for (ToDo__c todo : todos) {
             if (queueIds.contains(todo.OwnerId)) {
                 switch on Category.valueOf(todo.Category__c) {
                     when Today {

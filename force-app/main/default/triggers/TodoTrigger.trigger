@@ -1,4 +1,4 @@
-trigger TodoTrigger on Todo__c (before insert, before update) {
+trigger TodoTrigger on ToDo__c (before insert, before update) {
     if (Trigger.isBefore && Trigger.isInsert) {
         TodoTriggerHandler.beforeInsert(Trigger.new);
     }
