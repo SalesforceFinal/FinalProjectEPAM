@@ -4,7 +4,7 @@ private class TodoServiceTest {
     @IsTest
     static void testAssignNewTodoToQueue() {
         List<ToDo__c> testTodos = new List<ToDo__c>();
-        Map<Category, Id> recordTypes = TestDataFactory.getRocordTypeIdByName();
+        Map<Category, Id> recordTypes = TodoService.getRocordTypeIdByName();
         testTodos.addAll(TestDataFactory.todoCreator(10, recordTypes.get(Category.Today), false, Category.Today));
         testTodos.addAll(TestDataFactory.todoCreator(10, recordTypes.get(Category.Tomorrow), false, Category.Tomorrow));
         testTodos.addAll(TestDataFactory.todoCreator(10, recordTypes.get(Category.Later), false, Category.Later));
@@ -35,7 +35,7 @@ private class TodoServiceTest {
     @IsTest
     static void testReAssignTodoToQueue() {
         Map<String, Id> queueMap = new Map<String, Id>();
-        Map<Category, Id> recordTypes = TestDataFactory.getRocordTypeIdByName();
+        Map<Category, Id> recordTypes = TodoService.getRocordTypeIdByName();
         List<ToDo__c> testTodosToday = TestDataFactory.todoCreator(50, recordTypes.get(Category.Today), true, Category.Today);
         List<ToDo__c> testTodosTomorrow = TestDataFactory.todoCreator(50, recordTypes.get(Category.Tomorrow), true, Category.Tomorrow);
         List<ToDo__c> testTodosLater = TestDataFactory.todoCreator(50, recordTypes.get(Category.Later), true, Category.Later);

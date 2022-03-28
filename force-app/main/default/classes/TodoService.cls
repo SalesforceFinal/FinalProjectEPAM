@@ -51,4 +51,21 @@ public with sharing class TodoService {
         }
         return queueMap;
     }
+
+    public static Map<Category, Id> getRocordTypeIdByName() {
+        Map<Category, Id> recordTypes = new Map<Category, Id>();
+        List<String> categoriesToString = new List<String>();
+        Schema.DescribeSObjectResult describeTodoObject = Schema.SObjectType.ToDo__c;
+        List<Schema.RecordTypeInfo> recordTypeInfos = describeTodoObject.getRecordTypeInfos();
+        List<Category> categories = Category.values();
+        for (Category category : categories) {
+            categoriesToString.add(category.name());
+        }
+        for (Schema.RecordTypeInfo recordType : recordTypeInfos) {
+            if (categoriesToString.contains(recordType.getName())) {
+                recordTypes.put(Category.valueOf(recordType.getName()), recordType.getRecordTypeId());
+            }
+        }
+        return recordTypes;
+    }
 }
