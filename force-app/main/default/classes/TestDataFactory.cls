@@ -56,20 +56,4 @@ public class TestDataFactory {
         }
         return testSubTodos;
     }
-
-    public static Map<Category, Id> getRocordTypeIdByName() {
-        Map<Category, Id> recordTypes = new Map<Category, Id>();
-        Schema.DescribeSObjectResult describeTodoObject = Schema.SObjectType.ToDo__c;
-        Map<String, Schema.RecordTypeInfo> recordTypeMapByName = describeTodoObject.getRecordTypeInfosByName();
-        Schema.RecordTypeInfo todayRecordTypeByName =  recordTypeMapByName.get(Category.Today.name());
-        Id todayRecordTypeId = todayRecordTypeByName.getRecordTypeId();
-        Schema.RecordTypeInfo tomorrowRecordTypeByName =  recordTypeMapByName.get(Category.Tomorrow.name());
-        Id tomorrowRecordTypeId = tomorrowRecordTypeByName.getRecordTypeId();
-        Schema.RecordTypeInfo laterRecordTypeByName =  recordTypeMapByName.get(Category.Later.name());
-        Id laterRecordTypeId = laterRecordTypeByName.getRecordTypeId();
-        recordTypes.put(Category.Today, todayRecordTypeId);
-        recordTypes.put(Category.Tomorrow, tomorrowRecordTypeId);
-        recordTypes.put(Category.Later, laterRecordTypeId);
-        return recordTypes;
-    }
 }
