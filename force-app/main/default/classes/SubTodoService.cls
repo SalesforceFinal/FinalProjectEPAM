@@ -3,17 +3,16 @@ public with sharing class SubTodoService {
         List<ToDo__c> todoToUpdate = new List<ToDo__c>();
         Set<Id> todoIds = new Set<Id>();
         for (Sub_ToDo__c subTodo : subTodos) {
-            if (subTodo.isDone__c) {
-                todoIds.add(subTodo.ToDo__c);
-            }
+            todoIds.add(subTodo.ToDo__c);
         }
         for (Sub_ToDo__c subTodo : [
-            SELECT Id, Name, ToDo__c, isDone__c
+            SELECT Id, Name, ToDo__c, isDone__c, ToDo__r.Status__c
             FROM Sub_ToDo__c
             WHERE ToDo__c IN :todoIds
-            AND isDone__c = false
+            AND (isDone__c = false
+            OR ToDo__r.Status__c = 'Completed')
         ]) {
-            if (todoIds.contains(subTodo.ToDo__c)) {
+            if (todoIds.contains(subTodo.ToDo__c) || subTodo.ToDo__r.Status__c == 'Completed') {
                 todoIds.remove(subTodo.ToDo__c);
             }
         }
