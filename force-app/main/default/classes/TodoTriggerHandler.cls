@@ -6,4 +6,20 @@ public with sharing class TodoTriggerHandler {
     public static void beforeUpdate(List<ToDo__c> todos) {
         TodoService.reAssignTodoToQueue(todos);
     }
+
+    public static void onAfterInsert(List<ToDo__c> todos) {
+        TodoTriggerHelper.pushInsert(todos);
+    }
+
+    public static void onAfterUpdate(List<ToDo__c> todos) {
+        TodoTriggerHelper.pushUpdated(todos);
+    }
+
+    public static void onAfterDelete(List<ToDo__c> todos) {
+        if (System.isFuture() || System.isBatch()){
+           
+        } else {
+        	TodoTriggerHelper.pushDeleted(todos);
+        }
+    }
 }
