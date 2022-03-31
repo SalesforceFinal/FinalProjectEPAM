@@ -1,0 +1,55 @@
+<template>
+  <lightning-layout vertical-align="center">
+    <lightning-layout-item padding="horizontal-small">
+
+      <lightning-layout-item horizontal-align="center">
+        <img
+          src='https://thumbs.dreamstime.com/b/business-to-do-list-flat-icon-modern-style-task-list-business-to-do-list-flat-icon-modern-style-any-purposes-perfect-web-138650221.jpg'
+          alt="Item picture" />
+      </lightning-layout-item>
+
+      <lightning-button-icon icon-name="utility:user" variant="brand" class="slds-m-left_xx-small" title="Take"
+        alternative-text="Take" onclick={handleTakeTodo}>
+      </lightning-button-icon>
+
+      <lightning-button-icon icon-name="utility:edit" variant="brand" class="slds-m-left_xx-small" title="Edit"
+        alternative-text="Edit" onclick={handleClickEdit}>
+      </lightning-button-icon>
+
+      <lightning-button-icon icon-name="utility:preview" variant="brand" class="slds-m-left_xx-small" title="View"
+        alternative-text="View SubTodos" onclick={handleClickView}>
+      </lightning-button-icon>
+
+      <lightning-button-icon icon-name="action:delete" variant="brand" class="slds-m-left_xx-small" title="Delete"
+        alternative-text="Delete" onclick={handleClickDelete}>
+      </lightning-button-icon>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="horizontal-small">
+      <lightning-record-view-form record-id={item.Id} data-category={item.Status__c} record-category={item.Category__c}
+        record-priority={item.Priority__c} record-owner={item.OwnerId} object-api-name="ToDo__c" onclick={handleClickEdit}>
+        <b>{item.Name}&nbsp;</b>
+        <br />
+        <b>{item.Priority__c}&nbsp;</b>
+        <br />
+        Status : {item.Status__c}&nbsp;
+        <br />
+        Category: {item.Category__c}&nbsp;
+
+      </lightning-record-view-form>
+    </lightning-layout-item>
+  </lightning-layout>
+
+  <template if:true={isOpenEditWindow}>
+    <c-edit-item item={item} is-open={isOpenEditWindow} onclosemodal={closeEditModal}>
+    </c-edit-item>
+  </template>
+
+  <template if:true={isOpenViewWindow}>
+    <c-sub-todo-list 
+      item={item}
+      ondeleteitem={handleDeleteItem}
+      onupdatelist={updateItems}>
+  </c-sub-todo-list>
+  </template>
+</template>

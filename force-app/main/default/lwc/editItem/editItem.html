@@ -1,0 +1,69 @@
+<template>
+  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+    aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+
+      <header class="slds-modal__header">
+        <lightning-button-icon 
+          class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+          title="Close" 
+          icon-name="utility:close" 
+          onclick={handleCancel}>
+        </lightning-button-icon>
+        <div class="slds-text-heading_medium slds-modal__title slds-hyphenate">ToDo</div>
+      </header>
+      
+      <div class="slds-modal__content m" id="modal-content-id-1">
+        <lightning-record-edit-form 
+        record-type-id={selectedRecordTypeId}
+        record-id={item.Id} 
+        object-api-name="ToDo__c"
+        onsuccess={handleSave} 
+        onsubmit={handleSubmit}>
+
+        <lightning-combobox 
+          class="slds-p-around_large"
+          required="true"
+          name="Type"
+          label="Type"
+          value={selectedRecordTypeId}
+          placeholder="Select Record Type"
+          options={options}
+          onchange={handleChangeRecordType} >
+        </lightning-combobox>
+
+          <div class="input">
+            <lightning-input-field field-name="Name">
+            </lightning-input-field>
+            <lightning-input-field field-name="Category__c" disabled="true">
+            </lightning-input-field>
+            <lightning-input-field field-name="Priority__c">
+            </lightning-input-field>
+            <lightning-input-field field-name="Status__c">
+            </lightning-input-field>
+            <lightning-input-field field-name="Description__c">
+            </lightning-input-field>
+            <lightning-input-field field-name="Creation_Date__c">
+            </lightning-input-field>
+          </div>
+
+          <lightning-layout horizontal-align="center">
+            <lightning-layout-item flexibility="auto" padding="around-medium">
+              <lightning-button class="slds-m-top_small" variant="Destructive" name="cancel" label="Cancel"
+                onclick={handleCancel}>
+              </lightning-button>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-medium">
+              <lightning-button class="slds-m-top_small" variant="brand" type="submit" name="update" label="Save">
+              </lightning-button>
+            </lightning-layout-item>
+          </lightning-layout>
+
+        </lightning-record-edit-form>
+      </div>
+
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

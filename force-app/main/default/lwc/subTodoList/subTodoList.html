@@ -1,0 +1,136 @@
+<template>
+    <lightning-card title="Sub-ToDos" style="width: 100%;">
+            <lightning-button class="slds-m-bottom medium" type="submit" style="margin-left: 30%;" variant="brand" label="New SubToDo"
+                onclick={handleUpsertItem}>
+            </lightning-button>
+
+            <!-- Create new Sub-ToDo block -->
+            <template if:true={isOpenWindow}>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                    aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <lightning-button-icon 
+                              class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                              title="Close" 
+                              icon-name="utility:close" 
+                              onclick={closeCreateModal}>
+                            </lightning-button-icon>
+                            <div class="slds-text-heading_medium slds-modal__title slds-hyphenate">Sub-ToDo</div>
+                          </header>
+                        <div class="slds-modal__content m">
+                            <lightning-record-edit-form object-api-name="Sub_ToDo__c" onsuccess={handleSave}
+                                onsubmit={handleSubmit}>
+                                <div class="input">
+                                    <lightning-input-field field-name="Name">
+                                    </lightning-input-field>
+                                    <lightning-input-field field-name="isDone__c">
+                                    </lightning-input-field>
+                                    <lightning-input-field field-name="ToDo__c">
+                                    </lightning-input-field>
+                                </div>                                
+                            </lightning-record-edit-form>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-layout horizontal-align="center">
+                                <lightning-layout-item flexibility="auto" padding="around-medium">
+                                  <lightning-button class="slds-m-top_small" variant="Destructive" name="cancel" label="Cancel"
+                                    onclick={closeCreateModal}>
+                                  </lightning-button>
+                                </lightning-layout-item>                
+                                <lightning-layout-item padding="around-medium">
+                                  <lightning-button 
+                                  class="slds-m-top_small" 
+                                  variant="brand" 
+                                  name="update" 
+                                  label="Save"
+                                  onclick={handleSubmitButtonClick}>
+                                  </lightning-button>
+                                </lightning-layout-item>
+                              </lightning-layout>
+                        </footer>
+                    </div>
+                </section>
+            </template>
+            <!-- SubToDo item block -->
+            <ul class="slds-has-dividers_around-space">
+                <template for:each={item.Sub_ToDos__r} for:item="subTodo">
+                    <!--items-->
+                    <li class="slds-item" key={subTodo.Id} data-category={subTodo.isDone__c}>
+                        <!--Different colors for different categories-->
+                        <lightning-layout vertical-align="center" horizontal-align="spread">
+                            <lightning-layout-item padding="horizontal-small">
+                                <lightning-layout vertical-align="center">
+                                    <lightning-layout-item padding="horizontal-small">
+                                        <lightning-layout-item horizontal-align="center">
+                                            <img src='data:image/png;base64,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'
+                                                alt="Item picture" />
+                                        </lightning-layout-item>
+                                        <lightning-button-icon icon-name="utility:edit" variant="brand"
+                                            class="slds-m-left_xx-small" title="Edit" alternative-text="Edit"
+                                            onclick={handleClickEdit}>
+                                        </lightning-button-icon>
+                                        <a class=deleteSubToDo 
+                                            data-recordid={subTodo.Id} 
+                                            onclick={deleteSubToDo}> Delete</a>
+                                    </lightning-layout-item>
+                                    <!-- SubToDo edit block -->
+                                    <template if:true={isOpenEditWindow}>
+                                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                            aria-modal="true" aria-describedby="modal-content-id-1"
+                                            class="slds-modal slds-fade-in-open">
+                                            <div class="slds-modal__container">
+                                                <header class="slds-modal__header">
+                                                    <lightning-button-icon 
+                                                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                                        title="Close" 
+                                                        icon-name="utility:close" 
+                                                        onclick={closeEditModal}>
+                                                    </lightning-button-icon>
+                                                <div class="slds-text-heading_medium slds-modal__title slds-hyphenate">Sub-ToDo</div>
+                                                </header>
+                                                <div class="slds-modal__content m">
+                                                    <lightning-record-edit-form record-id={subTodo.Id}
+                                                        object-api-name="Sub_ToDo__c" onsuccess={handleSave}
+                                                        onsubmit={handleSubmit}>
+                                                        <lightning-input-field field-name="Name">
+                                                        </lightning-input-field>
+                                                        <lightning-input-field field-name="isDone__c">
+                                                        </lightning-input-field>
+                                                        <lightning-input-field field-name="ToDo__c">
+                                                        </lightning-input-field>
+                                                        <lightning-layout horizontal-align="center">                                                        
+                                                    <lightning-layout-item padding="around-medium">
+                                                        <lightning-button label="Cancel" variant="neutral"
+                                                        onclick={closeEditModal}></lightning-button>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item flexibility="auto" padding="around-medium">
+                                                        <lightning-button class="slds-m-top_small" variant="brand"
+                                                            type="submit" name="update" label="Update">
+                                                        </lightning-button>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                                    </lightning-record-edit-form>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                                    </template>
+                                    <lightning-layout-item padding="horizontal-small">
+                                        <lightning-record-view-form record-id={subTodo.Id} object-api-name="Sub_ToDo__c"
+                                            onclick={handleClickEdit}>
+                                            <b>{subTodo.Name}&nbsp;</b>
+                                            <br />
+                                            <b>isDone : {subTodo.isDone__c}&nbsp;</b>
+                                        </lightning-record-view-form>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </li>
+                </template>
+            </ul>
+        <c-sub-paginator class="slds-show slds-is-relative" itemspaginator={items} onupdate={updateItemPaginator}>
+        </c-sub-paginator>
+    </lightning-card>
+</template>

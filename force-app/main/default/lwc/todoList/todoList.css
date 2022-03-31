@@ -1,0 +1,25 @@
+.empty-list {
+    font-weight: bold;
+}
+
+/*Different colors for different categories*/
+
+[data-category='Today'] {
+    background: #F0FFFF;
+}
+
+[data-category='Tomorrow'] {
+    background: #f5d7ab;
+}
+
+[data-category='Later'] {
+    background: #ADD8E6;
+}
+
+[data-status='Failed'] {
+    background: #da554b;
+}
+
+[data-status='Completed'] {
+    background: #75e48dd3;
+}
