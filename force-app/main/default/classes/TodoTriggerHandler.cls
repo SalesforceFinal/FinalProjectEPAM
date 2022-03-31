@@ -6,6 +6,7 @@ public with sharing class TodoTriggerHandler {
 
     public static void beforeUpdate(List<ToDo__c> todos) {
         TodoService.reAssignTodoToQueue(todos);
+        TodoService.changeStatusAfterAssignToUser(todos);
     }
     public static void afterUpdate(List<ToDo__c> todos) {
         if (isFirstTime) {

@@ -12,7 +12,7 @@ private class ScheduleBatchEveryDayTest {
         System.assertEquals(ScheduleBatchEveryDay.CRON_EXP,
             ct.CronExpression);
         System.assertEquals(0, ct.TimesTriggered);
-        System.assertEquals('2022-03-29 00:00:00',
+        System.assertEquals('2022-03-31 00:00:00',
             String.valueOf(ct.NextFireTime));
         Test.stopTest();
     }
