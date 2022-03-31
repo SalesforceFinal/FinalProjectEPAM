@@ -1,4 +1,10 @@
-trigger TodoTrigger on ToDo__c (before insert, before update, after update) {
+trigger TodoTrigger on ToDo__c (before insert, 
+                                before update, 
+                                after insert,  
+                                after delete,
+                                after undelete) {
+                                    
+
     if (Trigger.isBefore && Trigger.isInsert) {
         TodoTriggerHandler.beforeInsert(Trigger.new);
     }
@@ -6,7 +12,17 @@ trigger TodoTrigger on ToDo__c (before insert, before update, after update) {
     if (Trigger.isBefore && Trigger.isUpdate) {
         TodoTriggerHandler.beforeUpdate(Trigger.new);
     }
-    if (Trigger.isAfter && Trigger.isUpdate) {
+
+    if (Trigger.isInsert && Trigger.isAfter) {
+        TodoTriggerHandler.onAfterInsert(Trigger.new);
+    } 
+    
+    if (Trigger.isUpdate && Trigger.isAfter) {
+        TodoTriggerHandler.onAfterUpdate(Trigger.new);
         TodoTriggerHandler.afterUpdate(Trigger.new);
+    }  
+    
+    if (Trigger.isDelete && Trigger.isAfter) {
+        TodoTriggerHandler.onAfterDelete(Trigger.old);
     }
 }
