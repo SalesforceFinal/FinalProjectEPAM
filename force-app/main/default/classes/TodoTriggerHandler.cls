@@ -12,6 +12,7 @@ public with sharing class TodoTriggerHandler {
         if (isFirstTime) {
             isFirstTime = false;
             TodoService.updateSubTodoIsdone(todos);
+            TodoTriggerHelper.pushUpdated(todos);
         }
     }
 
@@ -19,13 +20,9 @@ public with sharing class TodoTriggerHandler {
         TodoTriggerHelper.pushInsert(todos);
     }
 
-    public static void onAfterUpdate(List<ToDo__c> todos) {
-        TodoTriggerHelper.pushUpdated(todos);
-    }
-
     public static void onAfterDelete(List<ToDo__c> todos) {
         if (System.isFuture() || System.isBatch()){
-           
+
         } else {
         	TodoTriggerHelper.pushDeleted(todos);
         }
