@@ -4,26 +4,29 @@ public with sharing class TodoTriggerHandler {
         TodoService.assignNewTodoToQueue(newTodos);
     }
 
+    public static void onAfterInsert(List<ToDo__c> todos) {
+        if (!Test.isRunningTest()) {
+            TodoTriggerHelper.pushInsert(todos);
+        }
+    }
+
     public static void beforeUpdate(List<ToDo__c> todos) {
         TodoService.reAssignTodoToQueue(todos);
         TodoService.changeStatusAfterAssignToUser(todos);
     }
+
     public static void afterUpdate(List<ToDo__c> todos) {
         if (isFirstTime) {
             isFirstTime = false;
             TodoService.updateSubTodoIsdone(todos);
-            TodoTriggerHelper.pushUpdated(todos);
+            if (!Test.isRunningTest()) {
+                TodoTriggerHelper.pushUpdated(todos);
+            }
         }
     }
 
-    public static void onAfterInsert(List<ToDo__c> todos) {
-        TodoTriggerHelper.pushInsert(todos);
-    }
-
     public static void onAfterDelete(List<ToDo__c> todos) {
-        if (System.isFuture() || System.isBatch()){
-
-        } else {
+        if (!System.isFuture() && !System.isBatch() && !Test.isRunningTest()) {
         	TodoTriggerHelper.pushDeleted(todos);
         }
     }
