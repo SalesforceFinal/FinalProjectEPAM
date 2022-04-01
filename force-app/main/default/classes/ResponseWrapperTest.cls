@@ -22,7 +22,6 @@ private class ResponseWrapperTest {
             FROM RecordType 
             WHERE Name =: todo.Name
         ].Name;
-        System.debug('wrapper: ' + wrapper);
 
         Test.startTest();
         ResponseWrapper newWrapper = ResponseWrapper.doingMapping(todo);

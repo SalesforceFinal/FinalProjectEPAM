@@ -3,7 +3,7 @@ public with sharing class SubTodoTriggerHelper {
     public static Http http = new Http();
     public static HttpRequest request;
     public static HTTPResponse response;
-    public static final String URL_SUB = 'callout:sForceIntegration/services/apexrest/Sub_ToDo__c';
+    public static final String URL_SUB = 'callout:MainOrganization/services/apexrest/Sub_ToDo__c';
 
     @Future(callout = true)
     public static void doRequest(String contentBody, String httpMethod) {

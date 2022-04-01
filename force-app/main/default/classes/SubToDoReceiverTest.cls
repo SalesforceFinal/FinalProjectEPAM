@@ -8,7 +8,8 @@ private class SubToDoReceiverTest {
         insert testTodo;
         Sub_ToDo__c testSubTodo = new Sub_ToDo__c(Name = 'Sub01',
                                                   ToDo__c = testTodo.Id,
-                                                  External_Id__c = 'a0009000005U9WwAAK');
+                                                  External_Id__c = 'a0009000005U9WwAAK',
+                                                  isDone__c = false);
         insert testSubTodo;
         return testSubTodo;
     }
@@ -20,7 +21,7 @@ private class SubToDoReceiverTest {
         createRecord();
         ToDo__c todo = [SELECT Id FROM ToDo__c LIMIT 1];
         request.requestBody = Blob.valueOf(
-            '[ {"relatedTodo" : "a010900000nVG0NAAW",  "name" : "Sub01", "isDone__c" :false, "id" : "a0009000005U9WwAAK" } ]'
+            '[ {"relatedTodo" : "a010900000nVG0NAAW",  "name" : "Sub01", "status" : false, "id" : "a0009000005U9WwAAK" } ]'
             );
         RestContext.request = request;
         Test.startTest();
@@ -39,7 +40,7 @@ private class SubToDoReceiverTest {
         System.assert(sub != null);
         System.assertEquals(sub.Name, 'Sub01');
         RestRequest request = new RestRequest();
-        request.requestBody = Blob.valueOf('[{"relatedTodo" : "a010900000nVG0NAAW",  "name": "Sub02", "isDone__c":false, "id":"' + sub.External_Id__c + '"}]');
+        request.requestBody = Blob.valueOf('[{"relatedTodo" : "a010900000nVG0NAAW",  "name": "Sub02", "status":false, "id":"' + sub.External_Id__c + '"}]');
         RestContext.request = request;
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new SubHttpCalloutMock());
@@ -57,7 +58,7 @@ private class SubToDoReceiverTest {
         System.assert(sub != null);
         System.assertEquals(sub.Name, 'Sub01');
         RestRequest request = new RestRequest();
-        request.requestBody = Blob.valueOf('[{"relatedTodo" : "a010900000nVG0NAAW",  "name": "Sub01", "isDone__c":false, "id":"' + sub.External_Id__c + '"}]');
+        request.requestBody = Blob.valueOf('[{"relatedTodo" : "a010900000nVG0NAAW",  "name": "Sub01", "status":false, "id":"' + sub.External_Id__c + '"}]');
         RestContext.request = request;
         List<Sub_ToDo__c> subs = [SELECT Id FROM Sub_ToDo__c];
         System.assert(subs.size() == 1);
