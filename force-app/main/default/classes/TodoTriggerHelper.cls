@@ -3,7 +3,7 @@ public with sharing class TodoTriggerHelper {
     public static Http http = new Http();
     public static HttpRequest request;
     public static HttpResponse response;
-    public static final String URL_TODO = 'callout:sForceIntegration/services/apexrest/ToDo__c'; 
+    public static final String URL_TODO = 'callout:MainOrganization/services/apexrest/ToDo__c'; 
 
     @Future(callout = true)
     public static void doingRequest(String contentBody, String httpMethod) {

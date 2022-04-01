@@ -41,7 +41,7 @@ private class ToDoReceiverTest {
         System.assertEquals(todo.Name, 'Test01');
         RestRequest request = new RestRequest();
         request.requestBody = Blob.valueOf(
-            '[{"name": "Test001", "rectypeName" : "Later", "status":"In Progress", "id":"' + todo.ExternalId__c + '"}]'
+            '[{"name": "Test001", "rectypeName" : "Later", "category" : "Later",  "status":"In Progress", "id":"' + todo.ExternalId__c + '"}]'
         );
         RestContext.request = request;
         List<Id> ids = ToDoReceiver.updateTodo();
@@ -56,7 +56,7 @@ private class ToDoReceiverTest {
         System.assertEquals(todo.Name, 'Test02');
         request = new RestRequest();
         request.requestBody = Blob.valueOf(
-            '[{"name": "Test002", "rectypeName" : "Later", "status" : "In Progress", "id":"' + todo.Id + '"}]'
+            '[{"name": "Test002", "rectypeName" : "Later", "category" : "Later", "status" : "In Progress", "id":"' + todo.Id + '"}]'
         );
         RestContext.request = request;
         ids = ToDoReceiver.updateTodo();
