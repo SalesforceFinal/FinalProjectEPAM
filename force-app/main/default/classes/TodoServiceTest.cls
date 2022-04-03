@@ -89,11 +89,6 @@ private class TodoServiceTest {
         insert testUser;
         Map<Category, Id> recordTypes = TodoService.getRocordTypeIdByName();
         List<ToDo__c> testTodos = TestDataFactory.todoCreator(10, recordTypes.get(Category.Today), true, Category.Today);
-        // User user = [
-        //     SELECT Id
-        //     FROM User
-        //     LIMIT 1
-        // ];
         for (ToDo__c todo : testTodos) {
             todo.OwnerId = testUser.Id;
         }
@@ -116,6 +111,28 @@ private class TodoServiceTest {
         for (ToDo__c todo : insertedTodos) {
             System.assertEquals(false, queuesIds.contains(todo.OwnerId));
             System.assertEquals('In Progress', todo.Status__c);
+        }
+    }
+
+    @IsTest
+    static void testUpdateSubTodoIsdone() {
+        List<ToDo__c> testTodos = new List<ToDo__c>();
+        List<Sub_ToDo__c> testSubTodos = new List<Sub_ToDo__c>();
+        Map<Category, Id> recordTypes = TodoService.getRocordTypeIdByName();
+        testTodos.addAll(TestDataFactory.todoCreator(50, recordTypes.get(Category.Today), true, Category.Today));
+        testSubTodos.addAll(TestDataFactory.subTodoCreator(3, testTodos, true));
+        for (ToDo__c todo : testTodos) {
+            todo.Status__c = 'Completed';
+        }
+        Test.startTest();
+        update testTodos;
+        Test.stopTest();
+        List<Sub_ToDo__c> insertedSubTodos = [
+            SELECT Id, Name, isDone__c
+            FROM Sub_ToDo__c
+        ];
+        for (Sub_ToDo__c subTodo : insertedSubTodos) {
+            System.assertEquals(true, subTodo.isDone__c);
         }
     }
 }
